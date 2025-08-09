@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Odoo Domain Builder & Tester",
-  "description": "Build and test Odoo ORM domains live: model/field autocomplete, search_count, and preview.",
-  "version": "0.1.0",
+  "name": "Odoo Tools: Domain Tester + View/XPath Inspector",
+  "description": "Build/test domains and inspect Odoo views with inheritance chain and XPath helpers.",
+  "version": "0.2.0",
   "permissions": [
     "storage"
   ],
@@ -14,7 +14,7 @@
       "matches": [
         "*://*/*"
       ],
-      "js": ["content.js"],
+      "js": ["content.js", "content_view_xpath.js"],
       "run_at": "document_idle"
     }
   ],

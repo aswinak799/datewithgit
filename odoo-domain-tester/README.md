@@ -1,40 +1,42 @@
-# Odoo Domain Builder & Tester (Chrome Extension)
+# Odoo Tools: Domain Tester + View/XPath Inspector
 
-Build and test Odoo ORM domains directly on any Odoo page. Autocomplete fields, run `search_count` and preview records with `search_read`.
+Two developer tools injected on Odoo pages:
+- Domain Builder & Tester: build/test ORM domains live
+- View & XPath Inspector: inspect views, inheritance chain, and craft stable XPath selectors
 
 ## Features
+
+### Domain Builder & Tester
 - Model autocomplete (reads from `ir.model`)
 - Field autocomplete (reads from `fields_get`)
 - Parse JSON or Python-like domain syntax
 - Evaluate: `search_count` and preview with `search_read`
 - Shows DB name and host badge
-- Lightweight floating panel with collapse/close
+
+### View & XPath Inspector
+- Detect model from current page (heuristic) or enter manually
+- Fetch base view arch for a type (`form`, `tree`, `kanban`, ...)
+- Show base view meta; placeholder for inheritance chain (future: resolved chain)
+- XPath tester to highlight matching elements in the UI
+- Quick suggestions for stable XPath by `field[@name]` and `button[@name]`
 
 ## Install (Developer Mode)
-1. Clone or copy this folder to your machine.
-2. Open Chrome → `chrome://extensions`.
-3. Enable "Developer mode" (top-right).
-4. Click "Load unpacked" and select the `odoo-domain-tester` folder.
-5. Open your Odoo site and the panel should appear automatically.
-
-If it does not appear, check Options and/or that you are logged in to Odoo.
+1. Open Chrome → `chrome://extensions`.
+2. Enable "Developer mode" (top-right).
+3. Click "Load unpacked" and select the `odoo-domain-tester` folder.
+4. Open your Odoo site; panels appear automatically if host is allowed and you are logged in.
 
 ## Options
 - Allowed hosts (whitelist). Leave empty to run on all hosts.
 - Auto-inject on page load.
 
 ## Notes
-- Calls Odoo JSON-RPC endpoints using current session cookies: `/web/session/get_session_info`, `/web/dataset/call_kw`.
-- SQL translation is heuristic; Odoo does not expose SQL plans via RPC.
-- Designed for Odoo 13–18. Some environments may restrict JSON-RPC endpoints.
-
-## Privacy & Security
-- No payloads are sent outside your browser. Data is kept in memory.
-- Storage is used only for options (hosts, autoinject).
+- Uses Odoo JSON-RPC endpoints with current session cookies.
+- View chain resolution for inherited views is basic in this MVP; future versions will use `ir.ui.view` introspection.
+- SQL hints in Domain Tester are heuristic; Odoo doesn't expose SQL plans.
 
 ## Roadmap
-- Field/operator suggestions by field type
-- Saved snippets and sharing
-- Domain formatter and linter
-- Test as another user/company (where permitted)
-- Error overlays for record rules/ACL failures
+- Resolve inheritance chain using `ir.ui.view` and show module ownership
+- Suggest resilient XPaths based on multiple attributes and positions
+- Copy-ready XPath snippets for Studio and XML inherits
+- Domain formatter/linter and saved snippets
