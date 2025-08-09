@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Odoo Domain Tester - Options</title>
+    <style>
+      body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue, Arial; margin: 16px; }
+      label { display:block; margin: 8px 0 4px; }
+      input[type="text"], textarea { width: 480px; max-width: 100%; padding: 8px; }
+      .muted { color:#475569; font-size: 12px; }
+      button { margin-top: 12px; padding:8px 12px; }
+    </style>
+  </head>
+  <body>
+    <h2>Odoo Domain Tester</h2>
+    <p class="muted">Configure which hosts to run on. Use one host per line (e.g., <code>https://erp.example.com</code>). Leave empty to run everywhere.</p>
+    <label for="hosts">Allowed hosts</label>
+    <textarea id="hosts" rows="6" placeholder="https://odoo.local:8069"></textarea>
+    <div>
+      <label><input type="checkbox" id="autoinject" checked /> Auto-inject panel on page load</label>
+    </div>
+    <div>
+      <button id="save">Save</button>
+      <span id="status" class="muted"></span>
+    </div>
+    <script>
+      const hostsEl = document.getElementById('hosts');
+      const autoinjectEl = document.getElementById('autoinject');
+      const statusEl = document.getElementById('status');
+      const saveBtn = document.getElementById('save');
+
+      async function load() {
+        const data = await chrome.storage.sync.get({ hosts: [], autoinject: true });
+        hostsEl.value = (data.hosts || []).join('\n');
+        autoinjectEl.checked = !!data.autoinject;
+      }
+
+      async function save() {
+        const hosts = hostsEl.value.split(/\n+/).map(s => s.trim()).filter(Boolean);
+        await chrome.storage.sync.set({ hosts, autoinject: autoinjectEl.checked });
+        statusEl.textContent = 'Saved';
+        setTimeout(() => statusEl.textContent = '', 1500);
+      }
+
+      load();
+      saveBtn.addEventListener('click', save);
+    </script>
+  </body>
+</html>

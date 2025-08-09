@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Odoo Domain Builder & Tester",
+  "description": "Build and test Odoo ORM domains live: model/field autocomplete, search_count, and preview.",
+  "version": "0.1.0",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  }
+}
