@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Jodit Editor in Textarea</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jodit@3.24.7/build/jodit.min.css" />
+	<style>
+		body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; margin: 24px; }
+		.container { max-width: 900px; margin: 0 auto; }
+		.controls { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+		pre { background: #f5f5f7; padding: 12px; border-radius: 8px; overflow: auto; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>Jodit in a Textarea</h1>
+
+		<textarea id="editor"></textarea>
+
+		<div class="controls">
+			<button id="get-html">Get HTML</button>
+			<button id="set-html">Set HTML</button>
+			<button id="clear">Clear</button>
+		</div>
+
+		<pre id="output" aria-live="polite"></pre>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/jodit@3.24.7/build/jodit.min.js"></script>
+	<script>
+		const editor = new Jodit('#editor', {
+			height: 350,
+			toolbarAdaptive: true,
+			placeholder: 'Start typing...',
+			uploader: { insertImageAsBase64URI: true }
+		});
+
+		document.getElementById('get-html').addEventListener('click', () => {
+			document.getElementById('output').textContent = editor.value;
+		});
+
+		document.getElementById('set-html').addEventListener('click', () => {
+			editor.value = '<h2>Preset content</h2><p>This was inserted programmatically.</p>';
+		});
+
+		document.getElementById('clear').addEventListener('click', () => {
+			editor.value = '';
+			document.getElementById('output').textContent = '';
+		});
+	</script>
+</body>
+</html>
